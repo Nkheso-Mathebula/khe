@@ -463,7 +463,7 @@
             color: white;
         }
         
-        /* Modules/Courses Section */
+        /* Modules/Subjects Section */
         .modules-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -1032,7 +1032,7 @@
                     <li><a href="#" class="nav-link" data-target="activities"><i class="fas fa-tasks"></i> Activities</a></li>
                     <li><a href="#" class="nav-link" data-target="tasks"><i class="fas fa-check-circle"></i> My Tasks</a></li>
                     <li><a href="#" class="nav-link" data-target="schedule"><i class="fas fa-calendar-alt"></i> Schedule</a></li>
-                    <li><a href="#" class="nav-link" data-target="courses"><i class="fas fa-book"></i> Courses</a></li>
+                    <li><a href="#" class="nav-link" data-target="subjects"><i class="fas fa-book"></i> Subjects</a></li>
                     <li><a href="#" class="nav-link" data-target="reminders"><i class="fas fa-bell"></i> Reminders</a></li>
                     <li><a href="#" class="nav-link" data-target="focus-timer"><i class="fas fa-clock"></i> Focus Timer</a></li>
                     <li><a href="#" class="nav-link" data-target="progress"><i class="fas fa-chart-line"></i> Progress</a></li>
@@ -1076,21 +1076,21 @@
                         <div class="card stat-card">
                             <i class="fas fa-book"></i>
                             <h3 id="active-courses-count">0</h3>
-                            <p>Active Courses</p>
+                            <p>Active Subjecss</p>
                         </div>
                     </div>
                     
-                    <!-- Modules/Courses Section -->
+                    <!-- Modules/Subjects Section -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">My Courses</h3>
-                            <button class="btn btn-primary" id="add-course-btn">Add Course</button>
+                            <h3 class="card-title">My Subjects</h3>
+                            <button class="btn btn-primary" id="add-course-btn">Add Subject</button>
                         </div>
                         <div id="courses-container" class="modules-grid">
                             <div class="empty-state">
                                 <i class="fas fa-book-open"></i>
                                 <h3>No Courses Added</h3>
-                                <p>Add your first course to get started</p>
+                                <p>Add your first subject to get started</p>
                             </div>
                         </div>
                     </div>
@@ -1412,17 +1412,12 @@
                                 <select id="theme-select" class="form-control">
                                     <option value="light">Light</option>
                                     <option value="dark">Dark</option>
+                                    <option value="pink">Pink</option>    
                                     <option value="auto">Auto (System)</option>
                                 </select>
                             </div>
                         </div>
                         
-                        <div class="settings-section">
-                            <h3>Data Management</h3>
-                            <button class="btn btn-primary" id="export-data-btn">Export Data</button>
-                            <button class="btn btn-warning" id="import-data-btn">Import Data</button>
-                            <button class="btn btn-danger" id="reset-data-btn">Reset All Data</button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1448,9 +1443,9 @@
                 
                 <div class="form-row">
                     <div class="form-group-half">
-                        <label for="task-course">Course</label>
+                        <label for="task-course">Subject</label>
                         <select id="task-course" class="form-control" required>
-                            <option value="">Select a course</option>
+                            <option value="">Select a subject</option>
                         </select>
                     </div>
                     
@@ -1460,6 +1455,7 @@
                             <option value="assignment">Assignment</option>
                             <option value="meeting">Meeting</option>
                             <option value="project">Project</option>
+                            <option value="quiz">Quiz</option>    
                             <option value="reading">Reading</option>
                             <option value="research">Research</option>
                             <option value="presentation">Presentation</option>
@@ -1521,18 +1517,18 @@
     <div class="modal" id="course-modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="course-modal-title">Add New Course</h2>
+                <h2 id="course-modal-title">Add New Subject</h2>
                 <button class="close-modal">&times;</button>
             </div>
             <form id="course-form">
                 <input type="hidden" id="course-id">
                 <div class="form-group">
-                    <label for="course-name">Course Name</label>
+                    <label for="course-name">Subject Name</label>
                     <input type="text" id="course-name" class="form-control" required>
                 </div>
                 
                 <div class="form-group">
-                    <label for="course-code">Course Code</label>
+                    <label for="course-code">Subject Code</label>
                     <input type="text" id="course-code" class="form-control" required>
                 </div>
                 
@@ -1542,7 +1538,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="course-subject">Subject</label>
+                    <label for="course-subject">Subject Number</label>
                     <input type="text" id="course-subject" class="form-control" required>
                 </div>
                 
@@ -1890,7 +1886,7 @@
     <!-- Footer -->
     <footer>
         <div class="container">
-            <p>&copy; 2025 MyStudyTask Master - Academic Task Management System</p>
+            <p>&copy; 2025 MyStudyTask Master - Academic Task Management System created by Nkheso</p>
             <p>Designed for students to manage academic tasks efficiently</p>
         </div>
     </footer>
@@ -2019,10 +2015,7 @@
         const scheduleAlertsToggle = document.getElementById('schedule-alerts-toggle');
         const reminderSoundsToggle = document.getElementById('reminder-sounds-toggle');
         const themeSelect = document.getElementById('theme-select');
-        const exportDataBtn = document.getElementById('export-data-btn');
-        const importDataBtn = document.getElementById('import-data-btn');
-        const resetDataBtn = document.getElementById('reset-data-btn');
-
+       
         // Progress elements
         const taskProgressContainer = document.getElementById('task-progress-container');
 
@@ -4058,71 +4051,7 @@
             }
         }
 
-        // Export data
-        exportDataBtn.addEventListener('click', () => {
-            const dataStr = JSON.stringify(userData, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = 'mystudytask_data.json';
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-        });
-
-        // Import data
-        importDataBtn.addEventListener('click', () => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            
-            input.onchange = e => {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    try {
-                        const importedData = JSON.parse(event.target.result);
-                        userData = importedData;
-                        saveData();
-                        initApp();
-                        alert('Data imported successfully!');
-                    } catch (error) {
-                        alert('Error importing data. Please make sure you selected a valid backup file.');
-                    }
-                };
-                
-                reader.readAsText(file);
-            };
-            
-            input.click();
-        });
-
-        // Reset data
-        resetDataBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset all data? This action cannot be undone.')) {
-                userData = {
-                    tasks: [],
-                    courses: [],
-                    schedule: [],
-                    reminders: [],
-                    exams: [],
-                    classes: [],
-                    nonAcademic: [],
-                    settings: {
-                        taskReminders: true,
-                        scheduleAlerts: true,
-                        reminderSounds: true,
-                        theme: 'light'
-                    }
-                };
-                saveData();
-                initApp();
-                alert('All data has been reset.');
-            }
-        });
-
+       
         // Auth tab switching
         loginTab.addEventListener('click', () => {
             loginTab.classList.add('active');
