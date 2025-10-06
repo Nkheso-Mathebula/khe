@@ -964,7 +964,7 @@
             
             <div class="role-selector">
                 <div class="role-btn active" id="student-btn">Student</div>
-                <div class="role-btn" id="instructor-btn">Instructor</div>
+               
             </div>
             
             <form id="login-form">
@@ -4014,94 +4014,15 @@
                 document.body.style.color = '#212529';
             }
         }
-
-        // Export data
-        exportDataBtn.addEventListener('click', () => {
-            const dataStr = JSON.stringify(userData, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportFileDefaultName = 'mystudytask_data.json';
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportFileDefaultName);
-            linkElement.click();
-        });
-
-        // Import data
-        importDataBtn.addEventListener('click', () => {
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.accept = '.json';
-            
-            input.onchange = e => {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                
-                reader.onload = function(event) {
-                    try {
-                        const importedData = JSON.parse(event.target.result);
-                        userData = importedData;
-                        saveData();
-                        initApp();
-                        alert('Data imported successfully!');
-                    } catch (error) {
-                        alert('Error importing data. Please make sure you selected a valid backup file.');
-                    }
-                };
-                
-                reader.readAsText(file);
-            };
-            
-            input.click();
-        });
-
-        // Reset data
-        resetDataBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset all data? This action cannot be undone.')) {
-                userData = {
-                    tasks: [],
-                    courses: [],
-                    schedule: [],
-                    reminders: [],
-                    exams: [],
-                    classes: [],
-                    nonAcademic: [],
-                    settings: {
-                        taskReminders: true,
-                        scheduleAlerts: true,
-                        reminderSounds: true,
-                        theme: 'light'
-                    }
-                };
-                saveData();
-                initApp();
-                alert('All data has been reset.');
-            }
-        });
-
-        // Role switching
-        studentBtn.addEventListener('click', () => {
-            studentBtn.classList.add('active');
-            instructorBtn.classList.remove('active');
-            profileRole.textContent = 'Student';
-            userIcon.className = 'fas fa-user-graduate';
-        });
-
-        instructorBtn.addEventListener('click', () => {
-            instructorBtn.classList.add('active');
-            studentBtn.classList.remove('active');
-            profileRole.textContent = 'Instructor';
-            userIcon.className = 'fas fa-chalkboard-teacher';
-        });
+        
 
         // Login handling
         loginForm.addEventListener('submit', (e) => {
             e.preventDefault();
-            const role = studentBtn.classList.contains('active') ? 'Student' : 'Instructor';
+            const role = studentBtn.classList.contains('active') ? 'Student';
             const name = document.getElementById('email').value.split('@')[0]; // Temporary placeholder
             profileName.textContent = name.charAt(0).toUpperCase() + name.slice(1);
-            profileMajor.textContent = role === 'Student' ? 'Your Major' : 'Instructor';
+            profileMajor.textContent = role === 'Student' ? 'Computer Science';
             userInfo.style.display = 'inline-block';
             userName.textContent = profileName.textContent;
             loginSection.style.display = 'none';
